@@ -18,6 +18,9 @@
     align-items: center;
     
 }
+.navbar__icon{
+    cursor: pointer;
+}
 .header__bellNum{
     position: absolute;
     top: 15px;
