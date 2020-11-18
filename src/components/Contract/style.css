@@ -1,0 +1,26 @@
+.contract{
+    width: 100%;
+    height: 100%;
+}
+.contract__top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-left: 33px;
+}
+.contract__top > button > span{
+    margin-left: 10px;
+}
+.contract__top >h2{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 131.23%;
+    /* bluish */
+
+    color: #5B7BD1;
+}
+.contract__top path{
+    fill: white;
+}

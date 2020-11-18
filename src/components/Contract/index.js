@@ -1,14 +1,15 @@
 import React from "react";
 import Button from "../../styles/button";
-import { ReactComponents as Icon } from "../../assets/svg/addCustomers.svg";
+import { ReactComponent as Icon } from "../../assets/svg/addContract.svg";
+import "./style.css";
 const index = () => {
   return (
-    <div className="customer">
-      <div className="customer__top">
-        <h2>Customers</h2>
+    <div className="contract">
+      <div className="contract__top">
+        <h2>Contracts</h2>
         <Button>
           <Icon />
-          <span>New Customer</span>
+          <span>New Contract</span>
         </Button>
       </div>
     </div>
