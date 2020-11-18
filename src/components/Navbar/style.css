@@ -1,0 +1,32 @@
+.navbar{
+    position: absolute;
+    height: 64px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    background: #001529;
+    /* inner-shadow/divider ↓ */
+    box-shadow: inset 0px -1px 0px #F0F0F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar__links{
+    display: flex;
+    width:150px;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+.header__bellNum{
+    position: absolute;
+    top: 15px;
+    font-size: 11px;
+    width: 22px;
+    height: 18px;
+    right: 99px;
+    background: #FF4D4F;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
