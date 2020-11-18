@@ -24,3 +24,37 @@
 .contract__top path{
     fill: white;
 }
+.add{
+    width: 100%;
+    height: 100%;
+    
+}
+.add__top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 94px;
+    background: #fff;
+    border-left: 1px solid #e5e5e5;
+    padding-left: 18px;
+}
+.add__top h2{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    margin-top: 12px;
+    color: rgba(0, 0, 0, 0.85);
+}
+.add__top .add__firstStep{
+    font-size: 14px;
+    line-height: 22px;
+
+    align-items: center;
+
+    color: rgba(0, 0, 0, 0.45);
+}
+.add__top .add__secondStep{
+    color: rgba(0, 0, 0, 0.65) !important;
+}
