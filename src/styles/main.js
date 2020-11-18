@@ -5,5 +5,5 @@ export default st.section`
     height: 100vh;
     min-height: 100vh;
     position: relative;
-    
+    background: #e5e5e5;
 `;
