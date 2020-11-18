@@ -1,7 +1,10 @@
 import st from "styled-components";
 
 export default st.section`
-    position: absolute;
-    top:64px;
-    left: 180px;
+    padding: 15px;
+    padding-top: 64px;
+    padding-left: 180px;
+    width:100%;
+    height:100%;
+    min-height: 100vh;
 `;
