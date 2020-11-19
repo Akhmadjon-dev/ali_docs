@@ -8,6 +8,7 @@ import {
   Space,
   Select,
   InputNumber,
+  message,
 } from "antd";
 import moment from "moment";
 
@@ -30,31 +31,26 @@ const layout = {
 const { Option } = Select;
 
 const Add = () => {
-  const [projectName, setProjectName] = useState("");
-  const [serviceName, setServiceName] = useState("");
-  const [clientid, setClientid] = useState("");
-  const [contractNumber, setContractNumber] = useState(0);
-  const [startDate, setStartDate] = useState(moment());
-  const [endDate, setEndDate] = useState(moment());
+  const [debt, setDebt] = useState(0);
   const [price, setPrice] = useState(0);
-  const [total, setTotal] = useState(0);
   const [reqPayment, setReqPayment] = useState(0);
   const onFinish = (values) => {
     console.log("Success:", values);
     console.log("project", values["projectName"]);
+    console.log("service", values["serviceName"]);
+    console.log("client", values["client"]);
+    console.log("contract", values["contractNumber"]);
+    console.log("start", moment(values["startDate"]).valueOf());
+    console.log("end", moment(values["endDate"]).valueOf());
+    console.log("price", values["price"]);
+    console.log("req", values["reqPayment"]);
+    console.log("debt", debt);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    // message(errorInfo);
   };
-  console.log(
-    projectName,
-    reqPayment,
-    contractNumber,
-    clientid,
-    endDate,
-    startDate
-  );
   return (
     <div className="add">
       <div className="add__top">
@@ -89,11 +85,7 @@ const Add = () => {
               },
             ]}
           >
-            <Input
-              defaultValue={projectName}
-              // onChange={(e) => setProjectName(e.target.value)}
-              placeholder="Project name"
-            />
+            <Input placeholder="Project name" />
           </Form.Item>
           <Form.Item
             name="client"
@@ -104,11 +96,7 @@ const Add = () => {
               },
             ]}
           >
-            <Select
-              placeholder="Choose a client"
-              onChange={(e) => setClientid(e)}
-              allowClear
-            >
+            <Select placeholder="Choose a client" allowClear>
               <Option value="jhon">Jhon</Option>
             </Select>
           </Form.Item>
@@ -119,10 +107,6 @@ const Add = () => {
                 moment(moment(), dateFormat),
               ]}
               format={dateFormat}
-              onChange={(e) => {
-                setEndDate(moment(e[0]).valueOf());
-                setStartDate(moment(e[1]).valueOf());
-              }}
             />
           </Form.Item>
           <Form.Item
@@ -134,11 +118,7 @@ const Add = () => {
               },
             ]}
           >
-            <InputNumber
-              min={0}
-              defaultValue={contractNumber}
-              onChange={(e) => setContractNumber(e)}
-            />
+            <InputNumber min={0} />
           </Form.Item>
           <Card style={{ marginBottom: "15px" }}>
             <h2>Services</h2>
@@ -154,10 +134,7 @@ const Add = () => {
               },
             ]}
           >
-            <Input
-              onChange={(e) => setServiceName(e.target.value)}
-              placeholder="Project name"
-            />
+            <Input placeholder="Project name" />
           </Form.Item>
           <Form.Item
             name="price"
@@ -175,7 +152,7 @@ const Add = () => {
             />
           </Form.Item>
           <Form.Item
-            name="requiredPay"
+            name="reqPayment"
             label="Required pay"
             rules={[
               {
@@ -192,8 +169,8 @@ const Add = () => {
               onChange={(e) => setReqPayment(e)}
             />
           </Form.Item>
-          <Form.Item label="Total">
-            <p style={{ margin: "0" }}>0$</p>
+          <Form.Item name="debt" label="Debt">
+            <p style={{ margin: "0" }}>{debt}</p>
           </Form.Item>
           <Space align="end">
             <Button type="primary" htmlType="submit">
