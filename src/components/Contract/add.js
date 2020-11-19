@@ -34,6 +34,11 @@ const Add = () => {
   const [serviceName, setServiceName] = useState("");
   const [clientid, setClientid] = useState("");
   const [contractNumber, setContractNumber] = useState(0);
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment());
+  const [price, setPrice] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [reqPayment, setReqPayment] = useState(0);
   const onFinish = (values) => {
     console.log("Success:", values);
   };
