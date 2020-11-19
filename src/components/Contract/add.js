@@ -41,15 +41,20 @@ const Add = () => {
   const [reqPayment, setReqPayment] = useState(0);
   const onFinish = (values) => {
     console.log("Success:", values);
-  };
-
-  const inputHandler = (e) => {
-    console.log(e.target, e.target.name, "input handler");
+    console.log("project", values["projectName"]);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  console.log(
+    projectName,
+    reqPayment,
+    contractNumber,
+    clientid,
+    endDate,
+    startDate
+  );
   return (
     <div className="add">
       <div className="add__top">
@@ -84,7 +89,11 @@ const Add = () => {
               },
             ]}
           >
-            <Input onChange={inputHandler} placeholder="Project name" />
+            <Input
+              defaultValue={projectName}
+              // onChange={(e) => setProjectName(e.target.value)}
+              placeholder="Project name"
+            />
           </Form.Item>
           <Form.Item
             name="client"
@@ -97,7 +106,7 @@ const Add = () => {
           >
             <Select
               placeholder="Choose a client"
-              // onChange={}
+              onChange={(e) => setClientid(e)}
               allowClear
             >
               <Option value="jhon">Jhon</Option>
@@ -106,10 +115,14 @@ const Add = () => {
           <Form.Item name="date" label="Date">
             <RangePicker
               defaultValue={[
-                moment("2015/01/01", dateFormat),
-                moment("2015/01/01", dateFormat),
+                moment(moment(), dateFormat),
+                moment(moment(), dateFormat),
               ]}
               format={dateFormat}
+              onChange={(e) => {
+                setEndDate(moment(e[0]).valueOf());
+                setStartDate(moment(e[1]).valueOf());
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -123,8 +136,8 @@ const Add = () => {
           >
             <InputNumber
               min={0}
-              defaultValue={3}
-              // onChange={onChange}
+              defaultValue={contractNumber}
+              onChange={(e) => setContractNumber(e)}
             />
           </Form.Item>
           <Card style={{ marginBottom: "15px" }}>
@@ -141,7 +154,10 @@ const Add = () => {
               },
             ]}
           >
-            <Input placeholder="Project name" />
+            <Input
+              onChange={(e) => setServiceName(e.target.value)}
+              placeholder="Project name"
+            />
           </Form.Item>
           <Form.Item
             name="price"
@@ -155,7 +171,7 @@ const Add = () => {
             <InputNumber
               min={0}
               defaultValue={3}
-              // onChange={onChange}
+              onChange={(e) => setPrice(e)}
             />
           </Form.Item>
           <Form.Item
@@ -173,7 +189,7 @@ const Add = () => {
               max={30}
               formatter={(value) => `${value}%`}
               parser={(value) => value.replace("%", "")}
-              // onChange={onChange}
+              onChange={(e) => setReqPayment(e)}
             />
           </Form.Item>
           <Form.Item label="Total">
