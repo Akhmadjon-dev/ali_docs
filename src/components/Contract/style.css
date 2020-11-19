@@ -8,6 +8,7 @@
     align-items: center;
     margin-top: 30px;
     padding-left: 33px;
+    padding-right: 15px;
 }
 .contract__top > button > span{
     margin-left: 10px;
@@ -38,6 +39,9 @@
     background: #fff;
     border-left: 1px solid #e5e5e5;
     padding-left: 18px;
+    position: fixed;
+    z-index: 999;
+    
 }
 .add__top h2{
     font-style: normal;
@@ -57,4 +61,25 @@
 }
 .add__top .add__secondStep{
     color: rgba(0, 0, 0, 0.65) !important;
+}
+
+.add__main{
+    width: 100%;
+    min-height: 100%;
+    background-color: #e5e5e5;
+    padding-bottom: 50px;
+    padding-top: 124px;
+}
+
+/* // form design */
+.ant-form{
+    width: 80%;
+    margin: auto !important;
+    margin-top: 50px;
+}
+
+.ant-space-align-end{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
