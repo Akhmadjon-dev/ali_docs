@@ -8,7 +8,6 @@ import {
   Space,
   Select,
   InputNumber,
-  message,
 } from "antd";
 import moment from "moment";
 
@@ -49,7 +48,6 @@ const Add = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    // message(errorInfo);
   };
   return (
     <div className="add">
