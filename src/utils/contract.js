@@ -1,4 +1,4 @@
-import db from '../../db/firebase'
+import db from '../db/firebase'
 
 //  Create contract
 
