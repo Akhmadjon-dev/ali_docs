@@ -2,12 +2,11 @@ import db from '../db/firebase'
 
 //  Create client
 
-export const createclient = (id,projectName,serviceName,client,start,end,price,req,debt) => {
-    db.collection('clients').doc(id).set({
+export const createClient = (id,clientName,serviceName,start,end,price,req,debt) => {
+    return db.collection('clients').doc(id).set({
         id,
-        projectName,
+        clientName,
         serviceName,
-        client,
         start,
         end,
         price,
@@ -24,7 +23,7 @@ export const createclient = (id,projectName,serviceName,client,start,end,price,r
 //  read client
 
 export const getclient = (id) => {
-    db.collection('clients').doc(id).get()
+    return db.collection('clients').doc(id).get()
     .then(client => {
         return client.data()
     })
@@ -35,18 +34,17 @@ export const getclient = (id) => {
 
 //  update client
 
-export const updateclient = (id,projectName,serviceName,client,start,end,price,req,debt) => {
-    db.collection('clients').doc(id).update({
-        projectName,
+export const updateclient = (id,clientName,serviceName,start,end,price,req,debt) => {
+    return db.collection('clients').doc(id).update({
+        clientName,
         serviceName,
-        client,
         start,
         end,
         price,
         req,
         debt
     }).then(() => {
-        return{msg: 'Updated client ' + id}
+        return {msg: 'Updated client ' + id}
     })
     .catch(err => {
         return err.message
@@ -56,7 +54,7 @@ export const updateclient = (id,projectName,serviceName,client,start,end,price,r
 //  delete client
 
 export const deleteclient = (id) => {
-    db.collection('clients').doc(id).delete()
+    return db.collection('clients').doc(id).delete()
     .then(() => {
         return {msg: 'Deleted client ' + id}
     })
@@ -68,7 +66,7 @@ export const deleteclient = (id) => {
 //  Get all clients
 
 export const getAllclient = (id) => {
-    db.collection('clients').get()
+    return db.collection('clients').get()
     .then(client => {
         return client.docs
     })

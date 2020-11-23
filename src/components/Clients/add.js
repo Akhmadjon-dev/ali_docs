@@ -10,13 +10,12 @@ import {
   InputNumber,
 } from "antd";
 import moment from "moment";
-import {createClient} from '../../utils/client'
 import { v4 as uuidv4 } from "uuid";
 
 import { Link } from "react-router-dom";
 
 // import "./style.css";
-import { createclient } from "../../utils/client";
+import { createClient } from "../../utils/client";
 
 const { RangePicker } = DatePicker;
 
@@ -48,7 +47,7 @@ const AddClient = () => {
     console.log("price", values["price"]);
     console.log("req", values["reqPayment"]);
 
-     createclient()
+     createClient()
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -105,9 +104,13 @@ const AddClient = () => {
             name="email"
             label="Client email"
             rules={[
-              {
-                required: true,
-              },
+                {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                },
+                {
+                    required: true,
+                },
             ]}
           >
             <InputNumber />

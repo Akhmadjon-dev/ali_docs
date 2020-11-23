@@ -151,7 +151,6 @@ const Add = () => {
           >
             <InputNumber
               min={0}
-              defaultValue={3}
               onChange={(e) => setPrice(e)}
             />
           </Form.Item>

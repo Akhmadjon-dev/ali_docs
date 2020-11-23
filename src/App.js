@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { blackList, whiteList } from "./routes/index";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, login, logout } from "./store/auth/userSlice";

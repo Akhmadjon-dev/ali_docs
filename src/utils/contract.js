@@ -3,7 +3,7 @@ import db from '../db/firebase'
 //  Create contract
 
 export const createContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
-    db.collection('contracts').doc(id).set({
+    return db.collection('contracts').doc(id).set({
         id,
         projectName,
         serviceName,
@@ -25,7 +25,7 @@ export const createContract = (id,projectName,serviceName,client,contract,start,
 //  read contract
 
 export const getContract = (id) => {
-    db.collection('contracts').doc(id).get()
+    return db.collection('contracts').doc(id).get()
     .then(contract => {
         return contract.data()
     })
@@ -37,7 +37,7 @@ export const getContract = (id) => {
 //  update contract
 
 export const updateContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
-    db.collection('contracts').doc(id).update({
+    return db.collection('contracts').doc(id).update({
         projectName,
         serviceName,
         client,
@@ -58,7 +58,7 @@ export const updateContract = (id,projectName,serviceName,client,contract,start,
 //  delete contract
 
 export const deleteContract = (id) => {
-    db.collection('contracts').doc(id).delete()
+    return db.collection('contracts').doc(id).delete()
     .then(() => {
         return {msg: 'Deleted contract ' + id}
     })
@@ -70,7 +70,7 @@ export const deleteContract = (id) => {
 //  Get all contracts
 
 export const getAllContract = (id) => {
-    db.collection('contracts').get()
+    return db.collection('contracts').get()
     .then(contract => {
         return contract.docs
     })
