@@ -6,7 +6,6 @@
     top: 0px;
     z-index: 99999;
     background: #001529;
-    /* inner-shadow/divider ↓ */
     box-shadow: inset 0px -1px 0px #F0F0F0;
     display: flex;
     justify-content: space-between;
