@@ -10,12 +10,13 @@ import {
   InputNumber,
 } from "antd";
 import moment from "moment";
-import {createContract} from '../../utils/contract'
+import {createClient} from '../../utils/client'
 import { v4 as uuidv4 } from "uuid";
 
 import { Link } from "react-router-dom";
 
-import "./style.css";
+// import "./style.css";
+import { createclient } from "../../utils/client";
 
 const { RangePicker } = DatePicker;
 
@@ -33,8 +34,7 @@ const { Option } = Select;
 
 // add to fireabse
 
-const Add = () => {
-  const [debt, setDebt] = useState(0);
+const AddClient = () => {
   const [price, setPrice] = useState(0);
   const [reqPayment, setReqPayment] = useState(0);
   const onFinish = (values) => {
@@ -47,9 +47,8 @@ const Add = () => {
     console.log("end", moment(values["endDate"]).valueOf());
     console.log("price", values["price"]);
     console.log("req", values["reqPayment"]);
-    console.log("debt", debt);
 
-     createContract()
+     createclient()
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -59,15 +58,15 @@ const Add = () => {
     <div className="add">
       <div className="add__top">
         <div className="add__navLinks">
-          <Link className="add__firstStep" to="/contracts">
-            Contracts
+          <Link className="add__firstStep" to="/clients">
+            Clients
           </Link>{" "}
           {" / "}
-          <Link className="add__firstStep add__secondStep" to="/contracts-add">
-            Create Contract
+          <Link className="add__firstStep add__secondStep" to="/clients-add">
+            Create Client
           </Link>
         </div>
-        <h2 className="add__title">Create Contract</h2>
+        <h2 className="add__title">Create Client</h2>
       </div>
       <div className="add__main">
         <Form
@@ -80,100 +79,65 @@ const Add = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Project name"
-            name="projectName"
+            label="Client name"
+            name="ClientName"
             rules={[
               {
                 required: true,
-                message: "Please input project name!",
+                message: "Please input Client name!",
               },
             ]}
           >
-            <Input placeholder="Project name" />
+            <Input placeholder="Client name" />
           </Form.Item>
           <Form.Item
-            name="client"
-            label="Client"
+            name="phone"
+            label="Client phone"
             rules={[
               {
                 required: true,
               },
             ]}
           >
-            <Select placeholder="Choose a client" allowClear>
-              <Option value="jhon">Jhon</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name="date" label="Date">
-            <RangePicker
-              defaultValue={[
-                moment(moment(), dateFormat),
-                moment(moment(), dateFormat),
-              ]}
-              format={dateFormat}
-            />
+            <InputNumber min={7} />
           </Form.Item>
           <Form.Item
-            name="contractNumber"
-            label="Contract Number"
+            name="email"
+            label="Client email"
             rules={[
               {
                 required: true,
               },
             ]}
           >
-            <InputNumber min={0} />
+            <InputNumber />
           </Form.Item>
-          <Card style={{ marginBottom: "15px" }}>
+          <Form.Item
+            name="PostCode"
+            label="Post code"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber />
+          </Form.Item>
+          {/* <Card style={{ marginBottom: "15px" }}>
             <h2>Services</h2>
             <p>Describe and price the services you’ll be delivering</p>
-          </Card>
+          </Card> */}
           <Form.Item
-            label="Service name"
-            name="serviceName"
+            label="Company name"
+            name="CompanyName"
             rules={[
               {
                 required: true,
-                message: "Please input service name",
+                message: "Please input Company name",
               },
             ]}
           >
-            <Input placeholder="Project name" />
-          </Form.Item>
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <InputNumber
-              min={0}
-              defaultValue={3}
-              onChange={(e) => setPrice(e)}
-            />
-          </Form.Item>
-          <Form.Item
-            name="reqPayment"
-            label="Required pay"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <InputNumber
-              min={0}
-              max={30}
-              formatter={(value) => `${value}%`}
-              parser={(value) => value.replace("%", "")}
-              onChange={(e) => setReqPayment(e)}
-            />
-          </Form.Item>
-          <Form.Item name="debt" label="Debt">
-            <p style={{ margin: "0" }}>{debt}</p>
+            <Input placeholder="Company name" />
           </Form.Item>
           <Space align="end">
             <Button type="primary" htmlType="submit">
@@ -187,4 +151,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default AddClient;
