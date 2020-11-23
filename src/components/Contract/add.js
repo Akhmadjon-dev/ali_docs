@@ -11,6 +11,8 @@ import {
 } from "antd";
 import moment from "moment";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { Link } from "react-router-dom";
 
 import "./style.css";
@@ -29,6 +31,8 @@ const layout = {
 
 const { Option } = Select;
 
+// add to fireabse
+
 const Add = () => {
   const [debt, setDebt] = useState(0);
   const [price, setPrice] = useState(0);
@@ -44,6 +48,8 @@ const Add = () => {
     console.log("price", values["price"]);
     console.log("req", values["reqPayment"]);
     console.log("debt", debt);
+
+     
   };
 
   const onFinishFailed = (errorInfo) => {
