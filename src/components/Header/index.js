@@ -3,10 +3,14 @@ import { Link, withRouter, NavLink } from "react-router-dom";
 import { ReactComponent as ContractsIcon } from "../../assets/svg/contracts.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/svg/clients.svg";
 import { ReactComponent as HomeIcon } from "../../assets/svg/home.svg";
+import {logOut} from '../../utils/auth'
 // import { ReactComponent as UpIcon } from "../../assets/svg/up.svg";
 // import { ReactComponent as DownIcon } from "../../assets/svg/down.svg";
 import "./style.css";
 const index = () => {
+  const signOut = () => {
+    logOut()
+  }
   const URL = [
     {
       title: "Dashboard",
@@ -44,6 +48,9 @@ const index = () => {
           </li>
         ))}
       </ul>
+      <div className='logOut'>
+        <button onClick={signOut}>Log out</button>
+      </div>
     </div>
   );
 };

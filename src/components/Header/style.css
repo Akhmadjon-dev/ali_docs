@@ -38,3 +38,25 @@ line-height: 22px;
 .header__links  .header__icon{
     margin-right: 10px;
 }
+
+.logOut {
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    height: 40px;
+}
+
+.logOut button {
+    background: transparent;
+    margin: 13px 15px;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+}
+.logOut button:focus {
+    outline: none;
+}

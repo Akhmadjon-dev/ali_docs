@@ -17,7 +17,7 @@ const index = () => {
       <div className="navbar__links">
         <span className="header__bellNum">45</span>
         <RingIcon className="navbar__icon" />
-        <Select defaultValue="En" style={{ width: 60 }} onChange={handleChange}>
+        <Select defaultValue="Uz" style={{ width: 60 }} onChange={handleChange}>
           <Option value="uz">Uz</Option>
           <Option value="ru">Ru</Option>
         </Select>

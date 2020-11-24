@@ -1,4 +1,4 @@
-import { Redirect, Route, Router } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import Login from "../components/Auth/login";
 import Clients from "../components/Clients/index";
 import Contracts from "../components/Contract/index";
@@ -20,7 +20,7 @@ export const whiteList = [
     component={ClientsAdd}
     exact
   />,
-  <Redirect key="defaultPaht" to="/sign-in" />,
+  <Redirect key="defaultPaht" to="/" />,
 ];
 export const blackList = [
   <Route key="signin" path="/sign-in" component={Login} exact />,
