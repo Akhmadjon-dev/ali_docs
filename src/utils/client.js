@@ -2,19 +2,18 @@ import db from '../db/firebase'
 
 //  Create client
 
-export const createclient = (id,projectName,serviceName,client,start,end,price,req,debt) => {
-    db.collection('clients').doc(id).set({
+export const createClient = (id, name, company, phone, email, postCode) => {
+    console.log(id, name, company, phone, email, postCode);
+    return db.collection('clients').doc(id).set({
         id,
-        projectName,
-        serviceName,
-        client,
-        start,
-        end,
-        price,
-        req,
-        debt
+        name,
+        company,
+        phone,
+        email,
+        postCode,
     }).then(() => {
-        return{msg: 'Added client ' + id}
+        console.log('added');
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -23,8 +22,8 @@ export const createclient = (id,projectName,serviceName,client,start,end,price,r
 
 //  read client
 
-export const getclient = (id) => {
-    db.collection('clients').doc(id).get()
+export const getClient = (id) => {
+    return db.collection('clients').doc(id).get()
     .then(client => {
         return client.data()
     })
@@ -35,18 +34,15 @@ export const getclient = (id) => {
 
 //  update client
 
-export const updateclient = (id,projectName,serviceName,client,start,end,price,req,debt) => {
-    db.collection('clients').doc(id).update({
-        projectName,
-        serviceName,
-        client,
-        start,
-        end,
-        price,
-        req,
-        debt
+export const updateClient = (id, name, company, phone, email, postCode) => {
+    return db.collection('clients').doc(id).update({
+        name,
+        company,
+        phone,
+        email,
+        postCode,
     }).then(() => {
-        return{msg: 'Updated client ' + id}
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -55,10 +51,10 @@ export const updateclient = (id,projectName,serviceName,client,start,end,price,r
 
 //  delete client
 
-export const deleteclient = (id) => {
-    db.collection('clients').doc(id).delete()
+export const deleteClient = (id) => {
+    return db.collection('clients').doc(id).delete()
     .then(() => {
-        return {msg: 'Deleted client ' + id}
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -67,10 +63,12 @@ export const deleteclient = (id) => {
 
 //  Get all clients
 
-export const getAllclient = (id) => {
-    db.collection('clients').get()
+export const getAllClients = () => {
+    return db.collection('clients').get()
     .then(client => {
-        return client.docs
+        return client.docs.map(item => {
+            return item.data()
+        })
     })
     .catch(err => {
         return err.message

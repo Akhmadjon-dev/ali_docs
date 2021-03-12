@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -8,12 +8,13 @@ import {
   Space,
   Select,
   InputNumber,
+  message,
 } from "antd";
 import moment from "moment";
 import {createContract} from '../../utils/contract'
+import {getAllClients} from '../../utils/client'
 import { v4 as uuidv4 } from "uuid";
-
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import "./style.css";
 
@@ -35,21 +36,33 @@ const { Option } = Select;
 
 const Add = () => {
   const [debt, setDebt] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [reqPayment, setReqPayment] = useState(0);
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    console.log("project", values["projectName"]);
-    console.log("service", values["serviceName"]);
-    console.log("client", values["client"]);
-    console.log("contract", values["contractNumber"]);
-    console.log("start", moment(values["startDate"]).valueOf());
-    console.log("end", moment(values["endDate"]).valueOf());
-    console.log("price", values["price"]);
-    console.log("req", values["reqPayment"]);
-    console.log("debt", debt);
+  const [clients, setClients] = useState([]);
 
-     createContract()
+  useEffect(async() => {
+    try {
+      const clientDb = await getAllClients() 
+      setClients(clientDb)
+    } catch (error) {
+      
+    }
+  })
+  const onFinish = async(values) => {
+    console.log(values);
+    const {
+      projectName,
+      client,
+      date,
+      contractNumber,
+      serviceName,
+      price,
+      amount
+    } = values
+    const startedAt = new Date(date[0]).toLocaleDateString()
+    const deadLine = new Date(date[1]).toLocaleDateString()
+    const add = await createContract(uuidv4(), projectName, client, startedAt, deadLine, contractNumber, serviceName, price, amount)
+    add.status === true ?
+    message.success('A new contract added "Successfully"')
+     : message.warning('Something went wrong');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -89,7 +102,7 @@ const Add = () => {
               },
             ]}
           >
-            <Input placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Project name" />
           </Form.Item>
           <Form.Item
             name="client"
@@ -97,19 +110,22 @@ const Add = () => {
             rules={[
               {
                 required: true,
+                message: 'Choose Client'
               },
             ]}
           >
             <Select placeholder="Choose a client" allowClear>
-              <Option value="jhon">Jhon</Option>
+              {clients.map(item => (
+                <Option key={item.id} value={item.name}>{item.name}</Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item name="date" label="Date">
             <RangePicker
-              defaultValue={[
-                moment(moment(), dateFormat),
-                moment(moment(), dateFormat),
-              ]}
+              // initialValues={[
+              //   moment(moment(), dateFormat),
+              //   moment(moment(), dateFormat),
+              // ]}
               format={dateFormat}
             />
           </Form.Item>
@@ -119,15 +135,12 @@ const Add = () => {
             rules={[
               {
                 required: true,
+                message: 'Input contract number'
               },
             ]}
           >
             <InputNumber min={0} />
           </Form.Item>
-          <Card style={{ marginBottom: "15px" }}>
-            <h2>Services</h2>
-            <p>Describe and price the services you’ll be delivering</p>
-          </Card>
           <Form.Item
             label="Service name"
             name="serviceName"
@@ -138,7 +151,7 @@ const Add = () => {
               },
             ]}
           >
-            <Input placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Project name" />
           </Form.Item>
           <Form.Item
             name="price"
@@ -146,36 +159,29 @@ const Add = () => {
             rules={[
               {
                 required: true,
+                message: 'Input contract price'
               },
             ]}
           >
             <InputNumber
               min={0}
-              defaultValue={3}
-              onChange={(e) => setPrice(e)}
             />
           </Form.Item>
           <Form.Item
-            name="reqPayment"
-            label="Required pay"
+            name="requiredPayment"
+            label="Required payment"
             rules={[
               {
                 required: true,
+                message: 'Input contract percent'
               },
             ]}
           >
             <InputNumber
               min={0}
-              max={30}
-              formatter={(value) => `${value}%`}
-              parser={(value) => value.replace("%", "")}
-              onChange={(e) => setReqPayment(e)}
             />
           </Form.Item>
-          <Form.Item name="debt" label="Debt">
-            <p style={{ margin: "0" }}>{debt}</p>
-          </Form.Item>
-          <Space align="end">
+          <Space className='contract__submitBtn'>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>

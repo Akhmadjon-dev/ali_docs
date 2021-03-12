@@ -25,3 +25,28 @@
 .clients__top path{
     fill: white;
 }
+
+.list__buttons button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    background: transparent;
+    border-radius: 2px;
+}
+
+.edite--btn {
+    border: 1px solid #ffa500;
+    color: #ffa500;
+}
+
+.delete--btn {
+    border: 1px solid #f50000;
+    color: #f50000;
+    
+}
+
+.ant-spin-nested-loading {
+    margin : 20px;
+}
+

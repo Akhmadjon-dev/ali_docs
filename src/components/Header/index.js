@@ -3,8 +3,8 @@ import { Link, withRouter, NavLink } from "react-router-dom";
 import { ReactComponent as ContractsIcon } from "../../assets/svg/contracts.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/svg/clients.svg";
 import { ReactComponent as HomeIcon } from "../../assets/svg/home.svg";
-import { ReactComponent as UpIcon } from "../../assets/svg/up.svg";
-import { ReactComponent as DownIcon } from "../../assets/svg/down.svg";
+// import { ReactComponent as UpIcon } from "../../assets/svg/up.svg";
+// import { ReactComponent as DownIcon } from "../../assets/svg/down.svg";
 import "./style.css";
 const index = () => {
   const URL = [
@@ -13,21 +13,18 @@ const index = () => {
       path: "/",
       exact: true,
       icon: <HomeIcon size={24} className="header__icon" />,
-      iconDrop: <DownIcon size={23} />,
     },
     {
       title: "Clients",
       path: "/clients",
       exact: true,
       icon: <ClientsIcon size={24} className="header__icon" />,
-      iconDrop: <DownIcon size={23} />,
     },
     {
       title: "Contracts",
       path: "/contracts",
       exact: true,
       icon: <ContractsIcon size={24} className="header__icon" />,
-      iconDrop: <DownIcon size={23} />,
     },
   ];
   // const linkHandler= ( e) => {
@@ -43,7 +40,6 @@ const index = () => {
                 {item.icon}
                 <span>{item.title}</span>
               </div>
-              {item.iconDrop}
             </NavLink>
           </li>
         ))}

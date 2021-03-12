@@ -1,21 +1,27 @@
-import db from '../db/firebase'
+import db, {firebase} from '../db/firebase'
 
 //  Create contract
 
-export const createContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
-    db.collection('contracts').doc(id).set({
+export const createContract = (id, projectName, client,  startedAt, deadLine, contractNumber, serviceName, price, amount ) => {
+    return db.collection('contracts').doc(id).set({
         id,
         projectName,
-        serviceName,
         client,
-        contract,
-        start,
-        end,
+        startedAt, 
+        deadLine,
+        contractNumber,
+        serviceName,
+        status: false,
         price,
-        req,
-        debt
+        total: [
+            {
+                amount,
+                time: new Date().toDateString()
+            }
+        ],
+        debt: price - amount
     }).then(() => {
-        return{msg: 'Added contract ' + id}
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -25,7 +31,7 @@ export const createContract = (id,projectName,serviceName,client,contract,start,
 //  read contract
 
 export const getContract = (id) => {
-    db.collection('contracts').doc(id).get()
+    return db.collection('contracts').doc(id).get()
     .then(contract => {
         return contract.data()
     })
@@ -36,19 +42,35 @@ export const getContract = (id) => {
 
 //  update contract
 
-export const updateContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
-    db.collection('contracts').doc(id).update({
+export const updateContract = (
+    id, 
+    projectName, 
+    client,  
+    startedAt, 
+    deadLine, 
+    contractNumber, 
+    serviceName, 
+    price, 
+    amount, 
+    status
+    ) => {
+        console.log();
+    return db.collection('contracts').doc(id).update({
         projectName,
-        serviceName,
         client,
-        contract,
-        start,
-        end,
+        startedAt, 
+        deadLine,
+        contractNumber,
+        serviceName,
         price,
-        req,
-        debt
+        status,
+        total: firebase.firestore.FieldValue.arrayUnion({
+            amount,
+            time: new Date().toDateString()
+        }),
+        debt: firebase.firestore.FieldValue.increment(parseInt(`-${amount}`))
     }).then(() => {
-        return{msg: 'Updated contract ' + id}
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -58,9 +80,9 @@ export const updateContract = (id,projectName,serviceName,client,contract,start,
 //  delete contract
 
 export const deleteContract = (id) => {
-    db.collection('contracts').doc(id).delete()
+    return db.collection('contracts').doc(id).delete()
     .then(() => {
-        return {msg: 'Deleted contract ' + id}
+        return {status: true}
     })
     .catch(err => {
         return err.message
@@ -69,10 +91,12 @@ export const deleteContract = (id) => {
 
 //  Get all contracts
 
-export const getAllContract = (id) => {
-    db.collection('contracts').get()
+export const getAllContracts = (id) => {
+    return db.collection('contracts').get()
     .then(contract => {
-        return contract.docs
+        return contract.docs.map(item => {
+            return item.data()
+        })
     })
     .catch(err => {
         return err.message

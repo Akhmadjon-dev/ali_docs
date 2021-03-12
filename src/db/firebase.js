@@ -2,14 +2,14 @@ import firebase from 'firebase';
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAnfUgsy0cAMZd1KcHG5mOHI77bW4Jv4x8",
-    authDomain: "alitech-contracts-3a909.firebaseapp.com",
-    databaseURL: "https://alitech-contracts-3a909.firebaseio.com",
-    projectId: "alitech-contracts-3a909",
-    storageBucket: "alitech-contracts-3a909.appspot.com",
-    messagingSenderId: "219959651579",
-    appId: "1:219959651579:web:39f66d5f9bb5a66697145e",
-    measurementId: "G-01YQ6TYSK6"
+    apiKey: "AIzaSyC2_IY_0_FKx6k-GXqcahjfDyXkjZpte08",
+    authDomain: "alitech-contracts.firebaseapp.com",
+    databaseURL: "https://alitech-contracts.firebaseio.com",
+    projectId: "alitech-contracts",
+    storageBucket: "alitech-contracts.appspot.com",
+    messagingSenderId: "476243184734",
+    appId: "1:476243184734:web:6666bef553de3c987eb8cf",
+    measurementId: "G-64W3B4D3PJ"
   };
 
   
@@ -17,5 +17,5 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
-export { auth, provider };
+export { auth, provider, firebase };
 export default db;

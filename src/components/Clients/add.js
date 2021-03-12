@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
-  Card,
   Button,
   DatePicker,
   Space,
-  Select,
-  InputNumber,
+  message ,
 } from "antd";
-import moment from "moment";
-import {createClient} from '../../utils/client'
 import { v4 as uuidv4 } from "uuid";
 
 import { Link } from "react-router-dom";
 
-// import "./style.css";
-import { createclient } from "../../utils/client";
+import "./style.css";
+import { createClient } from "../../utils/client";
 
-const { RangePicker } = DatePicker;
-
-const dateFormat = "YYYY/MM/DD";
 const layout = {
   labelCol: {
     span: 6,
@@ -30,25 +23,24 @@ const layout = {
   },
 };
 
-const { Option } = Select;
 
-// add to fireabse
 
-const AddClient = () => {
-  const [price, setPrice] = useState(0);
-  const [reqPayment, setReqPayment] = useState(0);
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    console.log("project", values["projectName"]);
-    console.log("service", values["serviceName"]);
-    console.log("client", values["client"]);
-    console.log("contract", values["contractNumber"]);
-    console.log("start", moment(values["startDate"]).valueOf());
-    console.log("end", moment(values["endDate"]).valueOf());
-    console.log("price", values["price"]);
-    console.log("req", values["reqPayment"]);
+const AddClient = (values) => {
+  
 
-     createclient()
+  const onFinish = async(values) => {
+    const {
+      name,
+      company, 
+      phone,
+      email,
+      postCode
+    } = values
+     
+     const add = await createClient(uuidv4(), name, company, phone, email, postCode)
+     add.status === true ?
+    message.success('A new client added "Successfully"')
+     : message.warning('Something went wrong');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -80,7 +72,7 @@ const AddClient = () => {
         >
           <Form.Item
             label="Client name"
-            name="ClientName"
+            name="name"
             rules={[
               {
                 required: true,
@@ -91,45 +83,8 @@ const AddClient = () => {
             <Input placeholder="Client name" />
           </Form.Item>
           <Form.Item
-            name="phone"
-            label="Client phone"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <InputNumber min={7} />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Client email"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <InputNumber />
-          </Form.Item>
-          <Form.Item
-            name="PostCode"
-            label="Post code"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <InputNumber />
-          </Form.Item>
-          {/* <Card style={{ marginBottom: "15px" }}>
-            <h2>Services</h2>
-            <p>Describe and price the services you’ll be delivering</p>
-          </Card> */}
-          <Form.Item
             label="Company name"
-            name="CompanyName"
+            name="company"
             rules={[
               {
                 required: true,
@@ -139,7 +94,47 @@ const AddClient = () => {
           >
             <Input placeholder="Company name" />
           </Form.Item>
-          <Space align="end">
+          <Form.Item
+            name="phone"
+            label="Client phone"
+            rules={[
+              {
+                required: true,
+                message: "Please input phone name",
+              },
+            ]}
+          >
+            <Input type='number' placeholder="Client phone" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Client email"
+            rules={[
+                {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                },
+                {
+                    required: true,
+                    message: "Please input email name",
+                },
+            ]}
+          >
+            <Input placeholder="Client email" />
+          </Form.Item>
+          <Form.Item
+            name="postCode"
+            label="Post code"
+            rules={[
+              {
+                required: true,
+                message: "Please input PostCode name",
+              },
+            ]}
+          >
+            <Input placeholder="Post code" />
+          </Form.Item>
+          <Space className='contract__submitBtn'>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
