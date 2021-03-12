@@ -91,3 +91,7 @@
 .ant-message {
     z-index: 99999999 !important;
 }
+
+.ant-modal-body {
+    background: #e9e9e9 !important;
+}
