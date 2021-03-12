@@ -2,17 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import Button from "../../styles/button";
 import { ReactComponent as Icon } from "../../assets/svg/addClients.svg";
-import { deleteClient, getAllClients } from "../../utils/client";
+import { deleteClient, getAllClients, updateClient } from "../../utils/client";
 import Spinner from '../../styles/spinner'
 import S from '../../styles/client'
 import "./style.css";
-import { Spin, Popconfirm, message, Table } from "antd";
+import { 
+  Spin, 
+  Popconfirm, 
+  message, 
+  Table, 
+  Modal, 
+  Form, 
+  Input, 
+  Space 
+} from "antd";
 import { EditOutlined, DeleteOutlined, SettingOutlined } from "@ant-design/icons";
-import { getAllContracts } from "../../utils/contract";
 
 const Index = () => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [initialForm, setInitialForm] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
 
   const columns = [
@@ -26,7 +36,7 @@ const Index = () => {
       key: 'x',
       render: (record) => (
         <div className='list__buttons'>
-          <button className='edite--btn'>
+          <button onClick={() => modalHandler(record)} className='edite--btn'>
             <EditOutlined />
           </button>
           <button className='delete--btn'>
@@ -35,8 +45,8 @@ const Index = () => {
               title={record.name + " o'chirilsinmi?"}
               onConfirm={() => confirm(record)}
               onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
+              okText="Ha"
+              cancelText="Yo'q"
             >
               <DeleteOutlined />
             </Popconfirm>
@@ -53,8 +63,31 @@ const Index = () => {
     } catch (error) {
 
     }
-  }, [])
+  }, [isModalVisible])
 
+
+  const onFinish = async (values) => {
+    const {
+      name,
+      company,
+      phone,
+      email,
+      postCode
+    } = values
+    const add = await updateClient(initialForm.id, name, company, phone, email, postCode)
+    add.status === true ?
+      message.success('Client updated "Successfully"') && modalHandler({})
+      : message.warning('Something went wrong');
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const modalHandler = (e) => {
+    setInitialForm(e)
+    setIsModalVisible(!isModalVisible)
+  }
 
   const confirm = async (e) => {
     const newData = data.filter(item => item.id != e.id)
@@ -68,12 +101,11 @@ const Index = () => {
     console.log(e);
     message.error('Click on No');
   }
-
   const addHandler = () => {
     history.push("/clients-add");
   };
 
-  console.log(data);
+  console.log(initialForm);
 
   return (
     <>
@@ -85,35 +117,6 @@ const Index = () => {
             <span>New Clients</span>
           </Button>
         </div>
-        {/* <S.Wrapper>
-          {data.map(item => (
-            <S.List key={item.id}>
-              <h4>{item.name}</h4>
-              <p>{item.company}</p>
-              <p>{item.phone}</p>
-              <p>{item.email}</p>
-              <div className='list__buttons'>
-                <button className='edite--btn'>
-                  <EditOutlined />
-                </button>
-                <button className='delete--btn'>
-                <Popconfirm
-                  placement="topRight"
-                  title={item.name + " o'chirilsinmi?"}
-                  onConfirm={() => confirm(item)}
-                  onCancel={cancel}
-                  okText="Yes"
-                  cancelText="No"
-                  >
-                  <DeleteOutlined />
-                  </Popconfirm>
-                  </button>
-                  </div>
-                  </S.List>
-                  ))}
-                  </S.Wrapper>
-                */}
-
         <Table
           columns={columns}
           expandable={{
@@ -126,6 +129,84 @@ const Index = () => {
       <Spinner>
         <Spin style={{ display: isLoading ? 'block' : 'none' }} size='large' />
       </Spinner>
+      <Modal footer={false} title="Basic Modal" visible={isModalVisible} onCancel={() => modalHandler({})}>
+      <Form
+          name="basic"
+          initialValues={initialForm}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <span>Mijoz ismi</span>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Mijoj nomini kiriting!",
+              },
+            ]}
+          >
+            <Input autoComplete='off' placeholder="Mijoz ismi" />
+          </Form.Item>
+          <span>Kompaniya nomi</span>
+          <Form.Item
+            name="company"
+            rules={[
+              {
+                required: true,
+                message: "Kompaniya nomini kiriting",
+              },
+            ]}
+          >
+            <Input placeholder="Kompaniya nomi" />
+          </Form.Item>
+          <span>Telifon raqami</span>
+          <Form.Item
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Telifon raqamini kiriting",
+              },
+            ]}
+          >
+            <Input type='tell' placeholder="Telifon raqami" />
+          </Form.Item>
+          <span>Email manzili</span>
+          <Form.Item
+            name="email"
+            rules={[
+                {
+                    type: 'email',
+                    message: 'Manzil Emailga mos emas!',
+                },
+                {
+                    required: true,
+                    message: "Email manzilni kiriting",
+                },
+            ]}
+          >
+            <Input placeholder="Email" />
+          </Form.Item>
+          <span>Pochta indeksi</span>
+          <Form.Item
+            name="postCode"
+            rules={[
+              {
+                required: true,
+                message: "Pochta indeksini kiriting",
+              },
+            ]}
+          >
+            <Input placeholder="Pochta indeksi" />
+          </Form.Item>
+          <Space className='contract__submitBtn'>
+            <Button style={{marginLeft: '32%'}} type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Space>
+        </Form>
+      </Modal>
     </>
   );
 };

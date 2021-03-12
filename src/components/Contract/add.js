@@ -55,11 +55,11 @@ const Add = () => {
       contractNumber,
       serviceName,
       price,
-      requiredPayment
+      amount
     } = values
     const startedAt = new Date(date[0]).toLocaleDateString()
     const deadLine = new Date(date[1]).toLocaleDateString()
-    const add = await createContract(uuidv4(), projectName, client, startedAt, deadLine, contractNumber, serviceName, price, requiredPayment)
+    const add = await createContract(uuidv4(), projectName, client, startedAt, deadLine, contractNumber, serviceName, price, amount)
     add.status === true ?
     message.success('A new contract added "Successfully"')
      : message.warning('Something went wrong');

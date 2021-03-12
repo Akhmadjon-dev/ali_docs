@@ -3,14 +3,19 @@ import { getAllClients } from '../../utils/client'
 import { getAllContracts, deleteContract } from '../../utils/contract'
 import S from "../../styles/dashboard"
 import Spinner from "../../styles/spinner"
-import { Spin, Table, Popconfirm, message } from 'antd'
-import { AuditOutlined, TeamOutlined, CheckSquareOutlined, EditOutlined, DeleteOutlined, SettingOutlined } from "@ant-design/icons";
+import { Spin, Table } from 'antd'
+import { 
+    AuditOutlined, 
+    TeamOutlined, 
+    CheckSquareOutlined, 
+} from "@ant-design/icons";
 
 
 function Dashboard() {
     const [data, setData] = useState([])
     const [list, setList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [category, setCategory] = useState('')
 
     
 
@@ -65,7 +70,8 @@ function Dashboard() {
             <div style={{ display: isLoading ? 'none' : 'block' }}>
                 <S.Wrapper>
                     <S.Card
-                        onClick={() => setList(data?.clients)}>
+                        style={{background: category === 'clients' && '#e7e5ff'}}
+                        onClick={() => {setList(data?.clients); setCategory('clients')}}>
                         <div className='card__icon'>
                             <TeamOutlined />
                         </div>
@@ -73,7 +79,8 @@ function Dashboard() {
                         <p className='card__qty'>{data?.clients?.length}</p>
                     </S.Card>
                     <S.Card
-                        onClick={() => setList(debtors)}>
+                        style={{background: category === 'debtors' && '#e7e5ff'}}
+                        onClick={() => {setList(debtors); setCategory('debtors')}}>
                         <div className='card__icon'>
                             <AuditOutlined />
                         </div>
@@ -81,7 +88,8 @@ function Dashboard() {
                         <p className='card__qty'>{debtors?.length}</p>
                     </S.Card>
                     <S.Card
-                        onClick={() => setList(data?.contracts)}>
+                        style={{background: category === 'contracts' && '#e7e5ff'}}
+                        onClick={() => {setList(data?.contracts); setCategory('contracts')}}>
                         <div className='card__icon'>
                             <AuditOutlined />
                         </div>
@@ -89,7 +97,8 @@ function Dashboard() {
                         <p className='card__qty'>{data?.contracts?.length}</p>
                     </S.Card>
                     <S.Card
-                        onClick={() => setList(finishedWorks)}>
+                        style={{background: category === 'finished' && '#e7e5ff'}}
+                        onClick={() => {setList(finishedWorks); setCategory('finished')}}>
                         <div className='card__icon'>
                             <CheckSquareOutlined />
                         </div>
@@ -97,7 +106,8 @@ function Dashboard() {
                         <p className='card__qty'>{finishedWorks?.length}</p>
                     </S.Card>
                     <S.Card
-                        onClick={() => setList(unFinishedWorks)}>
+                        style={{background: category === 'unfinished' && '#e7e5ff'}}
+                        onClick={() => {setList(unFinishedWorks); setCategory('unfinished')}}>
                         <div className='card__icon'>
                             <AuditOutlined />
                         </div>

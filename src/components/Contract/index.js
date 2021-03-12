@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../styles/button";
 import { useHistory } from "react-router-dom";
-import { getAllContracts, deleteContract } from '../../utils/contract'
+import { getAllContracts, deleteContract, updateContract } from '../../utils/contract'
 import { ReactComponent as Icon } from "../../assets/svg/addContract.svg";
-import { Spin, Popconfirm, message, Table, Modal, Form, Input, DatePicker, InputNumber, Space } from "antd";
+import {
+  Spin,
+  Popconfirm,
+  message,
+  Table,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+  InputNumber,
+  Space,
+  Checkbox
+} from "antd";
 import { EditOutlined, DeleteOutlined, SettingOutlined } from "@ant-design/icons";
 import Spinner from '../../styles/spinner'
 import "./style.css";
 
 const { RangePicker } = DatePicker;
 
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "MM/DD/YYYY";
 
 const Index = () => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [initialForm, setInitialForm] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const history = useHistory();
 
-  
+
 
   const columns = [
     { title: 'Proekt nomi', dataIndex: 'projectName', key: 'projectName' },
@@ -36,7 +49,12 @@ const Index = () => {
       key: 'status',
       render: text => text ? 'Tugallangan' : 'Tugallanmagan'
     },
-    { title: 'Qarzdorlik', dataIndex: 'debt', key: 'debt' },
+    { 
+      title: 'Qarzdorlik', 
+      dataIndex: 'debt', 
+      key: 'debt',
+      render: text => text.toLocaleString("en-GB")
+     },
     {
       title: <SettingOutlined />,
       dataIndex: '',
@@ -49,11 +67,11 @@ const Index = () => {
           <button className='delete--btn'>
             <Popconfirm
               placement="topRight"
-              title={record.name + " o'chirilsinmi?"}
+              title={record.contractNumber + " o'chirilsinmi?"}
               onConfirm={() => confirm(record)}
               onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
+              okText="Ha"
+              cancelText="Yo'q"
             >
               <DeleteOutlined />
             </Popconfirm>
@@ -73,8 +91,23 @@ const Index = () => {
     }
   }, [isModalVisible])
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Success:', values);
+    const {
+      projectName,
+      client,
+      date,
+      contractNumber,
+      serviceName,
+      price,
+      amount,
+    } = values
+    const startedAt = new Date(date[0]).toLocaleDateString()
+    const deadLine = new Date(date[1]).toLocaleDateString()
+    const add = await updateContract(initialForm.id, projectName, client, startedAt, deadLine, contractNumber, serviceName, price, amount, isFinished)
+    add.status === true ?
+      message.success('A new contract updated "Successfully"') && modalHandler({})
+      : message.warning('Something went wrong');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -102,8 +135,6 @@ const Index = () => {
   const addHandler = () => {
     history.push("/contracts-add");
   };
-
-  console.log(initialForm.debt);
   return (
     <>
       <div className="contract">
@@ -117,8 +148,14 @@ const Index = () => {
         <Table
           columns={columns}
           expandable={{
-            expandedRowRender: record => <p style={{ margin: 0 }}>{record.name}</p>,
-            rowExpandable: record => record.contracts,
+            expandedRowRender: record => record?.total.map(item => (
+              item.amount != 0 &&
+              <div style={{display: 'flex', justifyContent: 'space-between', padding: '0 50px'}} key={item.id}>
+                <p>{new Date(item.time).toDateString()}</p>
+                <p>{item.amount.toLocaleString("en-GB")}</p>
+              </div>
+            )),
+            rowExpandable: record => record.total?.length,
           }}
           dataSource={data}
         />
@@ -133,91 +170,115 @@ const Index = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
+          <span>Proekt nomi</span>
+          <Form.Item
+            name="status"
+          >
+            <Checkbox onChange={(e) => setIsFinished(e.target.checked)}>
+              Tamomlandi
+            </Checkbox>
+          </Form.Item>
+          <span>Proekt nomi</span>
           <Form.Item
             name="projectName"
             rules={[
               {
                 required: true,
-                message: "Please input project name!",
+                message: "Proekt nomini kiriting!",
               },
             ]}
           >
-            <Input autoComplete='off' placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Proekt nomi" />
           </Form.Item>
+          <span>Klient</span>
           <Form.Item
             name="client"
             rules={[
               {
                 required: true,
-                message: 'Client'
+                message: 'Klient'
               },
             ]}
           >
             <Input autoComplete='off' placeholder="Client" />
           </Form.Item>
-          <Form.Item name="date">
+          <span>Muddat ({initialForm.startedAt + ' - ' + initialForm.deadLine})</span>
+          <Form.Item name="date"
+            rules={[
+              {
+                required: true,
+                message: 'Muddatni kiriting'
+              }
+
+            ]}
+          >
             <RangePicker
-              // initialValues={[
-              //   moment(moment(), dateFormat),
-              //   moment(moment(), dateFormat),
-              // ]}
               format={dateFormat}
             />
           </Form.Item>
+          <span>Shartnoma raqami</span>
           <Form.Item
             name="contractNumber"
             rules={[
               {
                 required: true,
-                message: 'Input contract number'
+                message: 'Shartnoma raqamini kiriting'
               },
             ]}
           >
-            <InputNumber min={0} />
+            <InputNumber
+              placeholder="Shartnoma raqami"
+              min={0}
+            />
           </Form.Item>
+          <span>Xizmat nomi</span>
           <Form.Item
             name="serviceName"
             rules={[
               {
                 required: true,
-                message: "Please input service name",
+                message: "Xizmat nomini kiriting",
               },
             ]}
           >
-            <Input autoComplete='off' placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Xizmat nomi" />
           </Form.Item>
+          <span>Shartnoma narxi</span>
           <Form.Item
             name="price"
             rules={[
               {
                 required: true,
-                message: 'Input contract price'
+                message: 'Shartnoma narxini kiriting'
               },
             ]}
           >
             <InputNumber
+              placeholder="Shartnoma narxi"
               min={0}
             />
           </Form.Item>
+          <span>To'lov summasi</span>
           <Form.Item
             name="amount"
             rules={[
               {
                 required: true,
-                message: 'Input contract percent'
+                message: "To'lov summasini kiriting"
               },
             ]}
+            initialValue='0'
           >
             <InputNumber
               min={0}
               max={initialForm.debt}
+              placeholder="To'lov summasi"
             />
           </Form.Item>
           <Space className='contract__submitBtn'>
-            <Button type="primary" htmlType="submit">
+            <Button style={{marginLeft: '32%'}} type="primary" htmlType="submit">
               Submit
             </Button>
-            <Button>Cancel</Button>
           </Space>
         </Form>
       </Modal>
