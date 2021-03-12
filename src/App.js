@@ -9,7 +9,6 @@ import Navbar from "./components/Navbar/index";
 import Section from "./styles/section";
 import Main from "./styles/main";
 import "antd/dist/antd.css";
-import "./App.css";
 
 function App() {
   const user = useSelector(selectUser);

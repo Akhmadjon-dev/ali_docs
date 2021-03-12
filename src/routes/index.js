@@ -4,8 +4,13 @@ import Clients from "../components/Clients/index";
 import Contracts from "../components/Contract/index";
 import ContractsAdd from "../components/Contract/add";
 import ClientsAdd from '../components/Clients/add'
+import Dashboard from '../components/Dashboard'
 export const whiteList = [
-  <Route key="dashboar" path="/" component="" exact />,
+  <Route 
+    key="dashboar" 
+    path="/" 
+    component={Dashboard} 
+    exact />,
   <Route key="clients" path="/clients" component={Clients} exact />,
   <Route key="contracts" path="/contracts" component={Contracts} exact />,
   <Route

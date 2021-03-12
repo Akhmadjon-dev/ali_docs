@@ -2,20 +2,26 @@ import db from '../db/firebase'
 
 //  Create contract
 
-export const createContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
+export const createContract = (id, projectName, client,  startedAt, deadLine, contractNumber, serviceName, price, amount ) => {
     return db.collection('contracts').doc(id).set({
         id,
         projectName,
-        serviceName,
         client,
-        contract,
-        start,
-        end,
+        startedAt, 
+        deadLine,
+        contractNumber,
+        serviceName,
+        status: false,
         price,
-        req,
-        debt
+        total: [
+            {
+                amount,
+                time: new Date().toDateString()
+            }
+        ],
+        debt: price - amount
     }).then(() => {
-        return{msg: 'Added contract ' + id}
+        return{status: true}
     })
     .catch(err => {
         return err.message
@@ -36,17 +42,32 @@ export const getContract = (id) => {
 
 //  update contract
 
-export const updateContract = (id,projectName,serviceName,client,contract,start,end,price,req,debt) => {
+export const updateContract = (
+    id, 
+    projectName, 
+    client,  
+    startedAt, 
+    deadLine, 
+    contractNumber, 
+    serviceName, 
+    price, 
+    amount, 
+    status
+    ) => {
     return db.collection('contracts').doc(id).update({
         projectName,
-        serviceName,
         client,
-        contract,
-        start,
-        end,
+        startedAt, 
+        deadLine,
+        contractNumber,
+        serviceName,
+        status,
         price,
-        req,
-        debt
+        total: db.FieldValue.arrayUnion({
+            amount,
+            time: new Date().toDateString()
+        }),
+        debt: db.FieldValue.increment(parseInt(`-${amount}`))
     }).then(() => {
         return{msg: 'Updated contract ' + id}
     })
@@ -69,10 +90,12 @@ export const deleteContract = (id) => {
 
 //  Get all contracts
 
-export const getAllContract = (id) => {
+export const getAllContracts = (id) => {
     return db.collection('contracts').get()
     .then(contract => {
-        return contract.docs
+        return contract.docs.map(item => {
+            return item.data()
+        })
     })
     .catch(err => {
         return err.message

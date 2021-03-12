@@ -71,18 +71,23 @@
     padding-top: 124px;
 }
 
-/* // form design */
-.ant-form{
-    width: 80%;
-    margin: auto !important;
-    margin-top: 50px;
-}
-
 .ant-space-align-end{
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
 .ant-input-number, .ant-picker-range{
-    width: 100%; 
+    width: 100% !important; 
+}
+
+.contract__submitBtn {
+    margin-left: 25%; 
+}
+
+.ant-input-number{
+    width: 100%;
+}
+
+.ant-message {
+    z-index: 99999999 !important;
 }
