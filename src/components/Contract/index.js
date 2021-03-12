@@ -79,7 +79,6 @@ const Index = () => {
     message.error('Click on No');
   }
 
-
   const addHandler = () => {
     history.push("/contracts-add");
   };
