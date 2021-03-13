@@ -49,16 +49,16 @@ const Index = () => {
       key: 'status',
       render: text => text ? 'Tugallangan' : 'Tugallanmagan'
     },
-    { 
-      title: 'Qarzdorlik', 
-      dataIndex: 'debt', 
+    {
+      title: 'Qarzdorlik',
+      dataIndex: 'debt',
       key: 'debt',
       render: text => text.toLocaleString("en-GB")
-     },
+    },
     {
       title: <SettingOutlined />,
       dataIndex: '',
-      key: 'x',
+      key: 'id',
       render: (record) => (
         <div className='list__buttons'>
           <button onClick={() => modalHandler(record)} className='edite--btn'>
@@ -135,22 +135,26 @@ const Index = () => {
   const addHandler = () => {
     history.push("/contracts-add");
   };
+
+
   return (
     <>
       <div className="contract">
         <div className="contract__top">
-          <h2>Contracts</h2>
+          <h2>Kontraktlar</h2>
           <Button onClick={addHandler}>
             <Icon />
-            <span>New Contract</span>
+            <span>Yangi Kontrakt</span>
           </Button>
         </div>
         <Table
+          key="id"
+          rowKey="id"
           columns={columns}
           expandable={{
-            expandedRowRender: record => record?.total.map(item => (
+            expandedRowRender: record => record?.total.map((item, i) => (
               item.amount != 0 &&
-              <div style={{display: 'flex', justifyContent: 'space-between', padding: '0 50px'}} key={item.id}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 50px' }} key={i}>
                 <p>{new Date(item.time).toDateString()}</p>
                 <p>{item.amount.toLocaleString("en-GB")}</p>
               </div>
@@ -276,7 +280,7 @@ const Index = () => {
             />
           </Form.Item>
           <Space className='contract__submitBtn'>
-            <Button style={{marginLeft: '32%'}} type="primary" htmlType="submit">
+            <Button style={{ marginLeft: '32%' }} type="primary" htmlType="submit">
               Submit
             </Button>
           </Space>

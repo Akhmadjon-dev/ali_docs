@@ -10,7 +10,6 @@ import {
   InputNumber,
   message,
 } from "antd";
-import moment from "moment";
 import {createContract} from '../../utils/contract'
 import {getAllClients} from '../../utils/client'
 import { v4 as uuidv4 } from "uuid";
@@ -37,6 +36,7 @@ const { Option } = Select;
 const Add = () => {
   const [debt, setDebt] = useState(0);
   const [clients, setClients] = useState([]);
+  const history = useHistory();
 
   useEffect(async() => {
     try {
@@ -61,26 +61,27 @@ const Add = () => {
     const deadLine = new Date(date[1]).toLocaleDateString()
     const add = await createContract(uuidv4(), projectName, client, startedAt, deadLine, contractNumber, serviceName, price, amount)
     add.status === true ?
-    message.success('A new contract added "Successfully"')
+    message.success('A new contract added "Successfully"') && history.push("/contracts")
      : message.warning('Something went wrong');
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <div className="add">
       <div className="add__top">
         <div className="add__navLinks">
           <Link className="add__firstStep" to="/contracts">
-            Contracts
+            Kontraktlar
           </Link>{" "}
           {" / "}
           <Link className="add__firstStep add__secondStep" to="/contracts-add">
-            Create Contract
+              Yangi Kontrakt
           </Link>
         </div>
-        <h2 className="add__title">Create Contract</h2>
+        <h2 className="add__title">Yangi Kontrakt</h2>
       </div>
       <div className="add__main">
         <Form
@@ -93,34 +94,34 @@ const Add = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Project name"
+            label="Proekt nomi"
             name="projectName"
             rules={[
               {
                 required: true,
-                message: "Please input project name!",
+                message: "Proekt nomini kiriting!",
               },
             ]}
           >
-            <Input autoComplete='off' placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Proekt nomi" />
           </Form.Item>
           <Form.Item
             name="client"
-            label="Client"
+            label="Klient"
             rules={[
               {
                 required: true,
-                message: 'Choose Client'
+                message: 'Klientni tanlang'
               },
             ]}
           >
-            <Select placeholder="Choose a client" allowClear>
+            <Select placeholder="Klientni tanlang" allowClear>
               {clients.map(item => (
                 <Option key={item.id} value={item.name}>{item.name}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="date" label="Date">
+          <Form.Item name="date" label="Muddat">
             <RangePicker
               // initialValues={[
               //   moment(moment(), dateFormat),
@@ -131,53 +132,55 @@ const Add = () => {
           </Form.Item>
           <Form.Item
             name="contractNumber"
-            label="Contract Number"
+            label="Shartnoma raqami"
             rules={[
               {
                 required: true,
-                message: 'Input contract number'
+                message: 'Shartnoma raqamini kiriting'
               },
             ]}
           >
-            <InputNumber min={0} />
+            <InputNumber placeholder="Shartnoma raqami" min={0} />
           </Form.Item>
           <Form.Item
-            label="Service name"
+            label="Xizmat nomi"
             name="serviceName"
             rules={[
               {
                 required: true,
-                message: "Please input service name",
+                message: "Xizmat nomini kiriting",
               },
             ]}
           >
-            <Input autoComplete='off' placeholder="Project name" />
+            <Input autoComplete='off' placeholder="Xizmat nomi" />
           </Form.Item>
           <Form.Item
             name="price"
-            label="Price"
+            label="Narx"
             rules={[
               {
                 required: true,
-                message: 'Input contract price'
+                message: 'Narxni kiriting'
               },
             ]}
           >
             <InputNumber
+            placeholder='Narxni kiriting'
               min={0}
             />
           </Form.Item>
           <Form.Item
             name="requiredPayment"
-            label="Required payment"
+            label="Boshlang'ich narx"
             rules={[
               {
                 required: true,
-                message: 'Input contract percent'
+                message: "Boshlang'ich narxni kiriting"
               },
             ]}
           >
             <InputNumber
+              placeholder="Boshlang'ich narx"
               min={0}
             />
           </Form.Item>
