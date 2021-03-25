@@ -111,10 +111,10 @@ const Index = () => {
     <>
       <div style={{ display: isLoading ? 'none' : 'block' }} className="clients">
         <div className="clients__top">
-          <h2>Clients</h2>
+          <h2>Klientlar</h2>
           <Button onClick={addHandler}>
             <Icon />
-            <span>New Clients</span>
+            <span>Yangi Klient</span>
           </Button>
         </div>
         <Table
@@ -142,7 +142,7 @@ const Index = () => {
             rules={[
               {
                 required: true,
-                message: "Mijoj nomini kiriting!",
+                message: "Mijoz Ismini kiriting!",
               },
             ]}
           >
@@ -172,7 +172,7 @@ const Index = () => {
           >
             <Input type='tell' placeholder="Telifon raqami" />
           </Form.Item>
-          <span>Email manzili</span>
+          <span>Email manzil</span>
           <Form.Item
             name="email"
             rules={[

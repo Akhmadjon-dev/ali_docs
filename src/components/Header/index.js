@@ -15,13 +15,13 @@ const index = () => {
       icon: <HomeIcon size={24} className="header__icon" />,
     },
     {
-      title: "Clients",
+      title: "Klientlar",
       path: "/clients",
       exact: true,
       icon: <ClientsIcon size={24} className="header__icon" />,
     },
     {
-      title: "Contracts",
+      title: "Kontraktlar",
       path: "/contracts",
       exact: true,
       icon: <ContractsIcon size={24} className="header__icon" />,

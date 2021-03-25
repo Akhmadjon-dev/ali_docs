@@ -7,10 +7,8 @@ import {
   Space,
   message ,
 } from "antd";
+import { Link, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-
-import { Link } from "react-router-dom";
-
 import "./style.css";
 import { createClient } from "../../utils/client";
 
@@ -26,7 +24,7 @@ const layout = {
 
 
 const AddClient = (values) => {
-  
+  const history = useHistory();
 
   const onFinish = async(values) => {
     const {
@@ -39,7 +37,7 @@ const AddClient = (values) => {
      
      const add = await createClient(uuidv4(), name, company, phone, email, postCode)
      add.status === true ?
-    message.success('A new client added "Successfully"')
+    message.success('A new client added "Successfully"') && history.push("/clients")
      : message.warning('Something went wrong');
   };
 
@@ -51,14 +49,14 @@ const AddClient = (values) => {
       <div className="add__top">
         <div className="add__navLinks">
           <Link className="add__firstStep" to="/clients">
-            Clients
+            Klientlar
           </Link>{" "}
           {" / "}
           <Link className="add__firstStep add__secondStep" to="/clients-add">
-            Create Client
+            Yangi Klient
           </Link>
         </div>
-        <h2 className="add__title">Create Client</h2>
+        <h2 className="add__title">Yangi Klient</h2>
       </div>
       <div className="add__main">
         <Form
@@ -71,68 +69,68 @@ const AddClient = (values) => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Client name"
+            label="Klient Ismi"
             name="name"
             rules={[
               {
                 required: true,
-                message: "Please input Client name!",
+                message: "Klient Ismini kiriting!",
               },
             ]}
           >
-            <Input placeholder="Client name" />
+            <Input placeholder="Klient Ismi" />
           </Form.Item>
           <Form.Item
-            label="Company name"
+            label="Kompaniya nomi"
             name="company"
             rules={[
               {
                 required: true,
-                message: "Please input Company name",
+                message: "Kompaniya nomini kiriting",
               },
             ]}
           >
-            <Input placeholder="Company name" />
+            <Input placeholder="Kompaniya nomi" />
           </Form.Item>
           <Form.Item
             name="phone"
-            label="Client phone"
+            label="Telifon raqami"
             rules={[
               {
                 required: true,
-                message: "Please input phone name",
+                message: "Telifon raqamini kiriting",
               },
             ]}
           >
-            <Input type='number' placeholder="Client phone" />
+            <Input type='number' placeholder="Telifon raqam" />
           </Form.Item>
           <Form.Item
             name="email"
-            label="Client email"
+            label="Email manzil"
             rules={[
-                {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                },
-                {
-                    required: true,
-                    message: "Please input email name",
-                },
+              {
+                type: 'email',
+                message: 'Manzil Emailga mos emas!',
+            },
+            {
+                required: true,
+                message: "Email manzilni kiriting",
+            },
             ]}
           >
-            <Input placeholder="Client email" />
+            <Input placeholder="Email manzil" />
           </Form.Item>
           <Form.Item
             name="postCode"
-            label="Post code"
+            label="Pochta raqami"
             rules={[
               {
                 required: true,
-                message: "Please input PostCode name",
+                message: "Pochta raqamini kiriting",
               },
             ]}
           >
-            <Input placeholder="Post code" />
+            <Input placeholder="Pochta raqami" />
           </Form.Item>
           <Space className='contract__submitBtn'>
             <Button type="primary" htmlType="submit">

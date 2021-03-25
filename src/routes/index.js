@@ -25,10 +25,9 @@ export const whiteList = [
     component={ClientsAdd}
     exact
   />,
-  <Redirect key="defaultPaht" to="/sign-in" />,
+  <Redirect key="defaultPaht" to="/" />,
 ];
 export const blackList = [
   <Route key="signin" path="/sign-in" component={Login} exact />,
   //   <Route key="signin" path="/sign-in" component={Login} exact />,
-  <Redirect key="defaultPaht" to="/sign-in" />,
 ];
